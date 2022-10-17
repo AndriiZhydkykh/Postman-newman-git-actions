@@ -1,0 +1,1582 @@
+{
+	"info": {
+		"_postman_id": "a3b75da3-f76e-471e-9aba-c275eacd658c",
+		"name": "store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21311143"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create product",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//imported the same tests for post requests\r",
+									"eval(pm.environment.get(\"testForAllPostsRequests\"));\r",
+									"//Save the product id to global variables\r",
+									"let jsonDataProductId = pm.response.json();\r",
+									"pm.collectionVariables.set(\"newGeneratedProductId\",jsonDataProductId.id)\r",
+									"\r",
+									"\r",
+									"var data = JSON.parse(responseBody)\r",
+									"var schema = {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"name\": {\r",
+									"      \"type\": \"string\",\r",
+									"      \"enum\":[\"orange\"]\r",
+									"    },\r",
+									"    \"price\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[8]\r",
+									"    },\r",
+									"    \"sku\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[123321123]\r",
+									"    },\r",
+									"    \"description\": {\r",
+									"      \"type\": \"string\",\r",
+									"       \"enum\":[\"wouh\"]\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"name\",\r",
+									"    \"price\",\r",
+									"    \"sku\",\r",
+									"    \"description\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Body is correct\", function(){\r",
+									"    pm.expect(tv4.validate(data,schema)).to.be.true\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{newProductName}}\",\r\n    \"price\": {{newProductPrice}},\r\n    \"sku\": {{newProductSku}},\r\n    \"description\":\"{{newProductDescription}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"testForAllGetPutDelRequests\"));\r",
+									"\r",
+									"const newGeneratedProductId=pm.collectionVariables.get(\"newGeneratedProductId\")\r",
+									"const newProductName=pm.collectionVariables.get(\"newProductName\")\r",
+									"const newProductPrice=pm.collectionVariables.get(\"newProductPrice\")\r",
+									"const newProductSku=pm.collectionVariables.get(\"newProductSku\")\r",
+									"const newProductDescription=pm.collectionVariables.get(\"newProductDescription\")\r",
+									"\r",
+									"var data = JSON.parse(responseBody)\r",
+									"var schema = {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"name\": {\r",
+									"      \"type\": \"string\",\r",
+									"      \"enum\":[newProductName]\r",
+									"    },\r",
+									"    \"price\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[newProductPrice]\r",
+									"    },\r",
+									"    \"sku\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[newProductSku]\r",
+									"    },\r",
+									"    \"description\": {\r",
+									"      \"type\": \"string\",\r",
+									"       \"enum\":[newProductDescription]\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[newGeneratedProductId]\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"name\",\r",
+									"    \"price\",\r",
+									"    \"sku\",\r",
+									"    \"description\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Body is correct\", function(){\r",
+									"    pm.expect(tv4.validate(data,schema)).to.be.true\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/{{newGeneratedProductId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{newGeneratedProductId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//import tests for all get,put,del requests\r",
+									"eval(pm.environment.get(\"testForAllGetPutDelRequests\"));\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const newGeneratedProductId=pm.collectionVariables.get(\"newGeneratedProductId\")\r",
+									"const newProductName=pm.collectionVariables.get(\"newProductName\")\r",
+									"const newProductPrice=pm.collectionVariables.get(\"newProductPrice\")\r",
+									"const newProductSku=pm.collectionVariables.get(\"newProductSku\")\r",
+									"const newProductDescription=pm.collectionVariables.get(\"newProductDescription\")\r",
+									"\r",
+									"pm.test(\"The list of products has all data value about the new product\", function () {  \r",
+									"const responseNewProducDataById = jsonData.find(m => m.id === newGeneratedProductId);\r",
+									"\r",
+									"pm.expect(responseNewProducDataById).to.include({\"name\":newProductName})\r",
+									"pm.expect(responseNewProducDataById).to.include({\"price\":newProductPrice})\r",
+									"pm.expect(responseNewProducDataById).to.include({\"sku\":newProductSku})\r",
+									"pm.expect(responseNewProducDataById).to.include({\"description\":newProductDescription})\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Every item has all declared fields\", () => {\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('id'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('name'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('price'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('sku'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('description'));\r",
+									"});\r",
+									"pm.test(\"Check if value in all products isn't null\", function () {\r",
+									"    jsonData.forEach(element => pm.expect(element.id).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.name).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.price).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.sku).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.description).not.equal(null));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if value in all products isn't empty\", function () {\r",
+									"    jsonData.forEach(element => pm.expect(element.id).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.name).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.price).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.sku).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.description).not.equal(\"\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sorting products by name (asc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//import tests for all get,put,del requests\r",
+									"eval(pm.environment.get(\"testForAllGetPutDelRequests\"));\r",
+									"var data = JSON.parse(responseBody);\r",
+									"const jsonData = pm.response.json();\r",
+									"var _ = require('lodash'),\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test('Product names are in sorted order', () => {\r",
+									"    var expectedSortedOrder = _.orderBy(responseArray, ['name'],['asc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Every item has all declared fields\", () => {\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('id'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('name'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('price'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('sku'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('description'));\r",
+									"});\r",
+									"pm.test(\"Check if value in all products isn't null\", function () {\r",
+									"    jsonData.forEach(element => pm.expect(element.id).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.name).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.price).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.sku).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.description).not.equal(null));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if value in all products isn't empty\", function () {\r",
+									"    jsonData.forEach(element => pm.expect(element.id).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.name).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.price).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.sku).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.description).not.equal(\"\"));\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"}\r",
+									"pm.expect(tv4.validate(data,schema)).to.be.true"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=ASC&sortKey=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "ASC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sorting products by name (desc)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//import tests for all get,put,del requests\r",
+									"eval(pm.environment.get(\"testForAllGetPutDelRequests\"));\r",
+									"var data = JSON.parse(responseBody);\r",
+									"const jsonData = pm.response.json();\r",
+									"var _ = require('lodash'),\r",
+									"responseArray = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test('Product names are in sorted order', () => {\r",
+									"    var expectedSortedOrder = _.orderBy(responseArray, ['name'],['desc']);\r",
+									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Every item has all declared fields\", () => {\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('id'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('name'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('price'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('sku'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('description'));\r",
+									"});\r",
+									"pm.test(\"Check if value in all products isn't null\", function () {\r",
+									"    jsonData.forEach(element => pm.expect(element.id).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.name).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.price).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.sku).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.description).not.equal(null));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if value in all products isn't empty\", function () {\r",
+									"    jsonData.forEach(element => pm.expect(element.id).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.name).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.price).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.sku).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.description).not.equal(\"\"));\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"}\r",
+									"pm.expect(tv4.validate(data,schema)).to.be.true"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?sortOrder=DESC&sortKey=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "sortOrder",
+									"value": "DESC"
+								},
+								{
+									"key": "sortKey",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pagination",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//import tests for all get,put,del requests\r",
+									"eval(pm.environment.get(\"testForAllGetPutDelRequests\"));\r",
+									"var data = JSON.parse(responseBody);\r",
+									"const jsonData = pm.response.json();\r",
+									"const newGeneratedProductId=pm.collectionVariables.get(\"newGeneratedProductId\")\r",
+									"const newProductName=pm.collectionVariables.get(\"newProductName\")\r",
+									"const newProductPrice=pm.collectionVariables.get(\"newProductPrice\")\r",
+									"const newProductSku=pm.collectionVariables.get(\"newProductSku\")\r",
+									"const newProductDescription=pm.collectionVariables.get(\"newProductDescription\")\r",
+									"\r",
+									"pm.test(\"Check page size 3 have only 3 products\", function () {\r",
+									"    pm.expect(pm.response.json().length).to.equal(3);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Every item has all declared fields\", () => {\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('id'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('name'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('price'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('sku'));\r",
+									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('description'));\r",
+									"});\r",
+									"pm.test(\"Check if value in all products isn't null\", function () {\r",
+									"    jsonData.forEach(element => pm.expect(element.id).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.name).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.price).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.sku).not.equal(null));\r",
+									"    jsonData.forEach(element => pm.expect(element.description).not.equal(null));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if value in all products isn't empty\", function () {\r",
+									"    jsonData.forEach(element => pm.expect(element.id).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.name).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.price).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.sku).not.equal(\"\"));\r",
+									"    jsonData.forEach(element => pm.expect(element.description).not.equal(\"\"));\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"}\r",
+									"pm.expect(tv4.validate(data,schema)).to.be.true"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products?page=1&pageSize=3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//import tests for all get,put,del requeststab\r",
+									"eval(pm.environment.get(\"testForAllGetPutDelRequests\"));\r",
+									"const newGeneratedProductId=pm.collectionVariables.get(\"newGeneratedProductId\")\r",
+									"const updateNewProductName=pm.collectionVariables.get(\"updateNewProductName\")\r",
+									"const updateNewProductPrice=pm.collectionVariables.get(\"updateNewProductPrice\")\r",
+									"const updateNewProductSku=pm.collectionVariables.get(\"updateNewProductSku\")\r",
+									"const updateNewProductDescription=pm.collectionVariables.get(\"updateNewProductDescription\")\r",
+									"\r",
+									"\r",
+									"pm.test(\"Check that response returned the correct id \", function () {\r",
+									"    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"newGeneratedProductId\"));\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody)\r",
+									"var schema ={\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"name\": {\r",
+									"      \"type\": \"string\",\r",
+									"      \"enum\":[updateNewProductName]\r",
+									"    },\r",
+									"    \"price\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[updateNewProductPrice]\r",
+									"    },\r",
+									"    \"sku\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[updateNewProductSku]\r",
+									"    },\r",
+									"    \"description\": {\r",
+									"      \"type\": \"string\",\r",
+									"      \"enum\":[updateNewProductDescription]\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[newGeneratedProductId]\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"name\",\r",
+									"    \"price\",\r",
+									"    \"sku\",\r",
+									"    \"description\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function(){\r",
+									"    pm.expect(tv4.validate(data,schema)).to.be.true\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":{{newGeneratedProductId}},\r\n    \"name\": \"{{updateNewProductName}}\",\r\n    \"price\": {{updateNewProductPrice}},\r\n    \"sku\": {{updateNewProductSku}},\r\n    \"description\":\"{{updateNewProductDescription}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove product by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//import tests for all get,put,del requeststab\r",
+									"eval(pm.environment.get(\"testForAllGetPutDelRequests\"));\r",
+									"\r",
+									"const newGeneratedProductId=pm.collectionVariables.get(\"newGeneratedProductId\")\r",
+									"const updateNewProductName=pm.collectionVariables.get(\"updateNewProductName\")\r",
+									"const updateNewProductPrice=pm.collectionVariables.get(\"updateNewProductPrice\")\r",
+									"const updateNewProductSku=pm.collectionVariables.get(\"updateNewProductSku\")\r",
+									"const updateNewProductDescription=pm.collectionVariables.get(\"updateNewProductDescription\")\r",
+									"\r",
+									"pm.test(\"Check that response returned the correct id \", function () {\r",
+									"    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"newGeneratedProductId\"));\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody)\r",
+									"var schema ={\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"name\": {\r",
+									"      \"type\": \"string\",\r",
+									"      \"enum\":[updateNewProductName]\r",
+									"    },\r",
+									"    \"price\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[updateNewProductPrice]\r",
+									"    },\r",
+									"    \"sku\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[updateNewProductSku]\r",
+									"    },\r",
+									"    \"description\": {\r",
+									"      \"type\": \"string\",\r",
+									"      \"enum\":[updateNewProductDescription]\r",
+									"    },\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\",\r",
+									"      \"enum\":[newGeneratedProductId]\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"name\",\r",
+									"    \"price\",\r",
+									"    \"sku\",\r",
+									"    \"description\",\r",
+									"    \"id\"\r",
+									"  ]\r",
+									"}\r",
+									"pm.test(\"Body is correct\", function(){\r",
+									"    pm.expect(tv4.validate(data,schema)).to.be.true\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{newGeneratedProductId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{newGeneratedProductId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted product by ID(negative test)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"  pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"  });\r",
+									"\r",
+									"  pm.test(\"Status message is 'Created'\", function () {\r",
+									"        pm.response.to.have.status(\"Not Found\");\r",
+									"  });\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/{{newGeneratedProductId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{newGeneratedProductId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"order5\",\r\n    \"sku\": 123425445656765\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"order5\",\r\n    \"sku\": 123425445656765\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove order by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.environment.get(\"statusCodeForPostRequests\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Dream\",\r\n    \"lastName\": \"Real\",\r\n    \"email\": \"dream.real@gmail.com\",\r\n    \"dateOfBirth\": \"2001-10-99\",\r\n    \"emailVerified\": true,\r\n    \"signUpDate\": \"2019-08-24\",\r\n    \"status\": \"active\",\r\n    \"level\": \"lord\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Ilon\",\r\n    \"lastName\": \"Mask\",\r\n    \"email\": \"ilon.mask@gmail.com\",\r\n    \"dateOfBirth\": \"2001-10-99\",\r\n    \"emailVerified\": true,\r\n    \"signUpDate\": \"2019-08-24\",\r\n    \"status\": \"active\",\r\n    \"level\": \"lord\",\r\n    \"id\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove user by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//import tests for all get,put,del requests\r",
+									"eval(pm.environment.get(\"testForAllGetPutDelRequests\"));\r",
+									"var data = JSON.parse(responseBody);\r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"The list of products has all data value about the new product\", function () {\r",
+									"const newGeneratedProductId=pm.collectionVariables.get(\"newGeneratedProductId\")  \r",
+									"const responseNewProducDataById = jsonData.find(m => m.id === newGeneratedProductId);\r",
+									"const newProductName=pm.collectionVariables.get(\"newProductName\")\r",
+									"const newProductPrice=pm.collectionVariables.get(\"newProductPrice\")\r",
+									"const newProductSku=pm.collectionVariables.get(\"newProductSku\")\r",
+									"const newProductDescription=pm.collectionVariables.get(\"newProductDescription\")\r",
+									"\r",
+									"pm.expect(responseNewProducDataById).to.include({\"name\":newProductName})\r",
+									"pm.expect(responseNewProducDataById).to.include({\"price\":newProductPrice})\r",
+									"pm.expect(responseNewProducDataById).to.include({\"sku\":newProductSku})\r",
+									"pm.expect(responseNewProducDataById).to.include({\"description\":newProductDescription})\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"proba\", function () {\r",
+									"    //pm.expect(jsonData.find.id).not.equal(\"\")\r",
+									"     pm.expect(jsonData).to.include(\"id\")\r",
+									"});\r",
+									"var schema = {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"array\",\r",
+									"  \"items\": [\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\",\r",
+									"          \"id\":1\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\",\r",
+									"          \"name\":\"tomato\"\r",
+									"  \r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\",\r",
+									"          \"price\": 10\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\",\r",
+									"          \"sku\": 1232143543543\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\",\r",
+									"          \"description\": \"They are usually red, scarlet, or yellow, though green and purple varieties do exist, and they vary in shape from almost spherical to oval and elongate to pear-shaped.\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"id\",\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\"\r",
+									"      ]\r",
+									"    },\r",
+									"    {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"name\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"price\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"sku\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"description\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"          \"type\": \"integer\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"name\",\r",
+									"        \"price\",\r",
+									"        \"sku\",\r",
+									"        \"description\",\r",
+									"        \"id\"\r",
+									"      ]\r",
+									"    }\r",
+									"  ]\r",
+									"}\r",
+									"pm.expect(tv4.validate(data,schema)).to.be.true"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"//Create data for the new product",
+					"pm.collectionVariables.set(\"newProductName\",\"orange\")",
+					"pm.collectionVariables.set(\"newProductPrice\",8)",
+					"pm.collectionVariables.set(\"newProductSku\",123321123)",
+					"pm.collectionVariables.set(\"newProductDescription\",\"wouh\")",
+					"",
+					"//Update data for the new product",
+					"pm.collectionVariables.set(\"updateNewProductName\",\"banana\")",
+					"pm.collectionVariables.set(\"updateNewProductPrice\",155)",
+					"pm.collectionVariables.set(\"updateNewProductSku\",123321123)",
+					"pm.collectionVariables.set(\"updateNewProductDescription\",\"changed description\")",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"//Tests for all tests",
+					"pm.test(\"Response time is less than 200ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(200);",
+					"});",
+					"pm.test(\"Content-Type is present\", function () {",
+					"    pm.response.to.have.header(\"Content-Type\");",
+					"});",
+					"",
+					"",
+					"",
+					"//Tests for all positive post requests",
+					"pm.environment.set(\"testForAllPostsRequests\", function testForAllPostsRequests() {",
+					"",
+					"  pm.test(\"Status code is 201\", function () {",
+					"    pm.response.to.have.status(201);",
+					"  });",
+					"",
+					"  pm.test(\"Status message is 'Created'\", function () {",
+					"        pm.response.to.have.status(\"Created\");",
+					"  });",
+					"  pm.test(\"Correct response format JSON\", function () {",
+					"        pm.response.to.have.jsonBody();",
+					"  });",
+					"  pm.test(\"Content-Type header is application/json charset=utf-8\", () => {",
+					"        pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');",
+					"  });",
+					"",
+					"} + '; testForAllPostsRequests();');",
+					"",
+					"//Tests for all positive get.put.del requests",
+					"pm.environment.set(\"testForAllGetPutDelRequests\", function testForAllGetPutDelRequests() {",
+					"",
+					"    pm.test(\"Status code is 200\", function () {",
+					"        pm.response.to.have.status(200);",
+					"});",
+					"pm.test(\"Status message is 'OK'\", function () {",
+					"        pm.response.to.have.status(\"OK\");",
+					"  });",
+					"pm.test(\"Content-Type header is application/json charset=utf-8\", () => {",
+					"        pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');",
+					"});",
+					"",
+					"} + '; testForAllGetPutDelRequests();');",
+					"",
+					"",
+					"",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "newProductName",
+			"value": ""
+		},
+		{
+			"key": "newProductPrice",
+			"value": ""
+		},
+		{
+			"key": "newProductSku",
+			"value": ""
+		},
+		{
+			"key": "newProductDescription",
+			"value": ""
+		},
+		{
+			"key": "newGeneratedProductId",
+			"value": ""
+		},
+		{
+			"key": "updateNewProductName",
+			"value": ""
+		},
+		{
+			"key": "updateNewProductPrice",
+			"value": ""
+		},
+		{
+			"key": "updateNewProductSku",
+			"value": ""
+		},
+		{
+			"key": "updateNewProductDescription",
+			"value": ""
+		}
+	]
+}
