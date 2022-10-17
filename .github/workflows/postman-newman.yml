@@ -2,7 +2,7 @@ name: Postman-newman-API-testing
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   test-api:
     runs-on: ubuntu-latest
