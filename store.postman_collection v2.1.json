@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "a3b75da3-f76e-471e-9aba-c275eacd658c",
-		"name": "store",
+		"_postman_id": "af101523-b391-44bc-a650-2023b2d221db",
+		"name": "store Copy 2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21311143"
 	},
@@ -294,13 +294,6 @@
 									"    pm.expect(responseArray).to.eql(expectedSortedOrder);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Every item has all declared fields\", () => {\r",
-									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('id'));\r",
-									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('name'));\r",
-									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('price'));\r",
-									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('sku'));\r",
-									"    jsonData.forEach(element => pm.expect(element).to.has.deep.property('description'));\r",
-									"});\r",
 									"pm.test(\"Check if value in all products isn't null\", function () {\r",
 									"    jsonData.forEach(element => pm.expect(element.id).not.equal(null));\r",
 									"    jsonData.forEach(element => pm.expect(element.name).not.equal(null));\r",
